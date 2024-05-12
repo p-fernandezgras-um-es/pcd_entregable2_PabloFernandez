@@ -10,17 +10,17 @@ datos=[
 ("2024-01-17 06:00:00, 19.8"),
 ("2024-01-17 07:00:00, 20.5"),
 ("2024-01-17 08:00:00, 21.9")]
-sistema=Sistema.obtener_instancia()
+hola=Sistema.obtener_instancia()
 sensor=Observable_Sensor("Sensor")
-sensor.añadir_observer(sistema)
+sensor.añadir_observer(hola)
 for i in datos:
     sensor.nuevo_dato(Datos(i))
 
 calcular_estadisticos=Calcular_estadisticos()
 supera_umbral=Supera_umbral()
 aumento_brusco=Aumento_brusco()
-
+calcular_estadisticos.cambiar_estadistico(Cuantiles)
 calcular_estadisticos.set_proxima_operacion(supera_umbral)
 supera_umbral.set_proxima_operacion(aumento_brusco)
 problema=Operaciones(Paso)
-calcular_estadisticos.realizar_operacion(problema,sistema)
+calcular_estadisticos.realizar_operacion(problema,hola)

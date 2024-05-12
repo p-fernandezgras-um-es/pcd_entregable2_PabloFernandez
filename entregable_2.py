@@ -5,11 +5,13 @@ from enum import IntEnum
 from functools import reduce
 from math import sqrt
 
+class DatosNoValidos(BaseException):
+    pass
+
 
 #Creamos una clase para almacenar los datos del sensor
 class Datos:
-    def __init__(self,tupla) -> tuple:
-
+    def __init__(self,tupla:tuple) -> tuple:
         timestamp,temperatura=tupla.split(",")
         self.temperatura=float(temperatura)
         self.dia,self.hora=timestamp.split(" ")
@@ -52,6 +54,8 @@ class Sistema:
 class Observable_Sensor:
 
     def __init__(self,nombre) -> None:
+        if not isinstance(nombre,str):
+            raise DatosNoValidos("nombre debe ser un str")
         self._nombre=nombre
         self.observers=[]
 
@@ -215,9 +219,9 @@ class Cuantiles(Estadistico):
     #función para calcular es estadístico.
     def calcular_estadistico(self, sistema: Sistema):
         # Utilizamos la funcion np.quantile para calcular los diferentes cuantiles,
-        primer_cuantil=np.quantile(0.25,sistema.temperaturas())
-        segundo_cuantil=np.quantile(0.5,sistema.temperaturas())
-        tercer_cuantil=np.quantile(0.75,sistema.temperaturas())
+        primer_cuantil=np.quantile(sistema.temperaturas(),(0.25))
+        segundo_cuantil=np.quantile(sistema.temperaturas(),(0.5))
+        tercer_cuantil=np.quantile(sistema.temperaturas(),(0.75))
 
         print(f"Primer cuantil: {primer_cuantil}ºC.\nSegundo cuantil: {segundo_cuantil}ºC.\nTercer cuantil: {tercer_cuantil}ºC.")
 
@@ -234,3 +238,4 @@ class MaxMin(Estadistico):
 
         print(f"Temperatura máxima y mínima alcanzada en los últimos 60 segundos:\nTemperatura máxima: {t_max}ºC\nTemperatura máxima: {t_min}ºC")
         return t_max,t_min
+
