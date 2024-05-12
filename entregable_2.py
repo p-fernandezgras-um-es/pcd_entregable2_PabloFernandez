@@ -20,6 +20,7 @@ class Datos:
 ## R1: Singleton
 #Como dice el enunciado utilizamos el patrón singleton para que solamente pueda haber una instancia del sistema.
 class Sistema:
+
     _unicaInstancia = None
 
     def __init__(self):
@@ -134,6 +135,8 @@ class Calcular_estadisticos(Manejador):
     
     #función para calcular el estadístico
     def _operar(self,operacion: Operaciones,sistema:Sistema):
+        print(f"\033[91m--------------------------------------------------------\n{sistema.datos[-1].dia} {sistema.datos[-1].hora}\033[0m")
+
         print("Calculando estadisticos:")
         return self.context.aplicar(sistema)
     
@@ -208,7 +211,7 @@ class Media(Estadistico):
         # calculamos la media y la desviación típica haciendo uso de la programación funcional.
         media= reduce(lambda x, y: x + y, sistema.temperaturas()[-12:]) / len(sistema.temperaturas()[-12:])
         dt=sqrt(sum((x - media) ** 2 for x in sistema.temperaturas()) / len(sistema.temperaturas()))
-
+        
         print(f"La temperatura media en los últimos 60 segundos es de: {round(media,2)}ºC y la deviación típica es de {round(dt,2)}ºC.")
         
         return media,dt
