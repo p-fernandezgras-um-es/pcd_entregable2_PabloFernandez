@@ -50,6 +50,8 @@ if respuesta=="1":
 #creamos la clase para generar datos
 generar_datos=Generar_datos()
 
+umbral=input(f"\33[92mInserte el umbral de temperatura\033[0m")
+sistema.cambiar_umbral(float(umbral))
 while continuar:
     respuesta=input(f"\033[94m¿Que estadístico desea calcular los próximos 2 minutos?\n1:Media y desviación típica.\n2:Cuantiles.\n3:Máximo y mínimo.\033[0m")
     if respuesta=="2":
